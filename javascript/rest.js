@@ -1,14 +1,5 @@
 namespace("GameCraft.REST", function() {
 	var _private = {
-		successToast : function(message) {
-			if(typeof(message) === "undefined" || message === false) {
-				return;
-			}
-			$().toastmessage('showSuccessToast', message);
-		},
-		failToast : function() {
-			$().toastmessage('showErrorToast', "An Error Occured. Check the console for details.");
-		},
 		options : {
 			baseUrl : ""
 		}
@@ -18,11 +9,10 @@ namespace("GameCraft.REST", function() {
 			for(var option in options) {
 				if(options.hasOwnProperty(option)) {
 					_private.options[option] = options[option];
-					console.log(options[option]);
 				}
 			}
 		},
-		create : function create(apiObjectName/*string*/, dataObject/*object*/, callback/*function*/, successToastMessage /*string*/) {
+		create : function create(apiObjectName/*string*/, dataObject/*object*/, callback/*function*/) {
 			if( typeof (dataObject) !== "object" || typeof (apiObjectName) !== "string") {
 				return false;
 			}
@@ -36,21 +26,18 @@ namespace("GameCraft.REST", function() {
 				dataType : "json",
 				contentType : "application/json; charset=utf-8",
 				success : function(data) {
-					_private.successToast(successToastMessage);
 					if( typeof (callback) !== "undefined") {
 						callback(data);
 					}
-					console.log(data);
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
-					_private.failToast();
 					console.log(textStatus + ' ' + errorThrown);
 				}
 			});
 
 			return true;
 		},
-		get : function(apiObjectName/*string*/, callback/*function*/, successToastMessage/*string*/) {
+		get : function(apiObjectName/*string*/, callback/*function*/) {
 			if( typeof (callback) !== "function" || typeof (apiObjectName) !== "string") {
 				return false;
 			}
@@ -60,17 +47,17 @@ namespace("GameCraft.REST", function() {
 				url : _private.options.baseUrl + apiObjectName,
 				dataType : "json",
 				success : function(data) {
-					_private.successToast(successToastMessage);
-					callback(data);
+					if( typeof (callback) !== "undefined") {
+						callback(data);
+					}
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
-					_private.failToast();
 					console.log(textStatus + ' ' + errorThrown);
 				}
 			});
 			return true;
 		},
-		getById : function(apiObjectName /*string*/, apiObjectId/*string|integer*/, callback /*function*/, successToastMessage/*string*/) {
+		getById : function(apiObjectName/*string*/, apiObjectId/*string|integer*/, callback /*function*/) {
 			if( typeof (callback) !== "function" || typeof (apiObjectName) !== "string" || typeof (apiObjectId) !== "string") {
 				return false;
 			}
@@ -80,17 +67,17 @@ namespace("GameCraft.REST", function() {
 				url : _private.options.baseUrl + apiObjectName + "/" + apiObjectId,
 				dataType : "json",
 				success : function(data) {
-					_private.successToast(successToastMessage);
-					callback(data);
+					if( typeof (callback) !== "undefined") {
+						callback(data);
+					}
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
-					_private.failToast();
 					console.log(textStatus + ' ' + errorThrown);
 				}
 			});
 			return true;
 		},
-		update : function(apiObjectName /*string*/, apiObjectId /*string|integer*/, dataObject/*object*/, successToastMessage/*string*/) {
+		update : function(apiObjectName/*string*/, apiObjectId/*string|integer*/, dataObject/*object*/, callback /*function*/) {
 			if( typeof (dataObject) !== "object" || typeof (apiObjectId) !== "string" || typeof (apiObjectId) !== "string") {
 				return false;
 			}
@@ -102,17 +89,18 @@ namespace("GameCraft.REST", function() {
 				contentType : "application/json; charset=utf-8",
 				data : dataObject,
 				success : function(data) {
-					_private.successToast(successToastMessage);
+					if( typeof (callback) !== "undefined") {
+						callback(data);
+					}
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
-					_private.failToast();
 					console.log(textStatus + ' ' + errorThrown);
 				}
 			});
 			return true;
 		},
-		helperMethod : function(apiObjectName, apiObjectId, helperMethodName, dataObject, successMessage) {
-			this.update(apiObjectName, apiObjectId + helperMethodName, dataObject, successMessage);
+		helperMethod : function(apiObjectName, apiObjectId, helperMethodName, dataObject) {
+			this.update(apiObjectName, apiObjectId + helperMethodName, dataObject);
 		}
 	}
 });

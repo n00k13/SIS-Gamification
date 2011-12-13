@@ -7,7 +7,6 @@ $(document).ready(function() {
 			init(data, checkinObject);
 		});
 	});
-
 	var init = function(data, checkinObject) {
 		var idmap = {};
 		var parsed = [];
@@ -42,19 +41,9 @@ $(document).ready(function() {
 				alert("Pick a member");
 				return false;
 			}
-
-			$.ajax({
-				type : "POST",
-				url : "api/checkin/" + eventId + "/member/" + memberId + "/",
-				data : {},
-				success : function(data) {
-					console.log("Checkin successful :", data);
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					console.log(textStatus + ' ' + errorThrown);
-				}
+			rest.create("api/checkin/" + eventId + "/member/" + memberId + "/", {}, function(data) {
+				console.log(data);
 			});
-
 		});
 		/*setInterval(function() {
 		 $.ajax({
