@@ -31,8 +31,18 @@ class CheckinFactory {
 	}
 
 	public static function checkin($memberId, $eventId) {
+		$memberId = (int) $memberId;
+		$eventId = (int) $eventId;
+		
+		$check = "SELECT uid FROM members_to_checkins WHERE member_id = ? AND checkin_id = ?";
+		$resCheck = GlobalDatabase::$database -> query($check, array($memberId, $eventId));
+		
+		if($resCheck !== FALSE) {
+			return FALSE;
+		}
+		
 		$query = "INSERT INTO members_to_checkins(member_id, checkin_id) VALUES(?, ?)";
-		$res = GlobalDatabase::$database -> exec($query, array((int)$memberId, (int)$eventId));
+		$res = GlobalDatabase::$database -> exec($query, array($memberId, $eventId));
 		return TRUE;
 	}
 	

@@ -40,7 +40,15 @@ class CheckinMethods extends Resource {
 		$response = new Response($request);
 		$response -> code = Response::OK;
 
-		$res = array("success" => CheckinFactory::checkin($memberId, $checkinId));
+		$isChecked = CheckinFactory::checkin($memberId, $checkinId);
+		$res = array("success" => TRUE, "message" => "Check-in successfull");
+		
+		if($isChecked === FALSE) /*already checked in*/ {
+			$res["success"] = FALSE;
+			$res["message"] = "Already checked in";
+		}
+		
+		
 		$response -> body = json_encode($res);
 		return $response;
 	}

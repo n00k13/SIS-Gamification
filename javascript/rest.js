@@ -1,7 +1,7 @@
 namespace("GameCraft.REST", function() {
 	var _private = {
 		successToast : function(message) {
-			if(message == false) {
+			if(typeof(message) === "undefined" || message === false) {
 				return;
 			}
 			$().toastmessage('showSuccessToast', message);
