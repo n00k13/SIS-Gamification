@@ -4,10 +4,10 @@ namespace("GameCraft.REST", function() {
 			if(message == false) {
 				return;
 			}
-			//$().toastmessage('showSuccessToast', message);
+			$().toastmessage('showSuccessToast', message);
 		},
 		failToast : function() {
-			//$().toastmessage('showErrorToast', "An Error Occured. Check the console for details.");
+			$().toastmessage('showErrorToast', "An Error Occured. Check the console for details.");
 		},
 		options : {
 			baseUrl : ""
@@ -27,11 +27,11 @@ namespace("GameCraft.REST", function() {
 				return false;
 			}
 			dataObject = JSON.stringify(dataObject);
-			console.log(dataObject);
+
 			// make the call
 			$.ajax({
 				type : "POST",
-				url : _private.baseUrl + apiObjectName,
+				url : _private.options.baseUrl + apiObjectName,
 				data : dataObject,
 				dataType : "json",
 				contentType : "application/json; charset=utf-8",
@@ -70,14 +70,14 @@ namespace("GameCraft.REST", function() {
 			});
 			return true;
 		},
-		getById : function(apiObjectName, apiObjectId, successToastMessage, callback) {
+		getById : function(apiObjectName /*string*/, apiObjectId/*string|integer*/, callback /*function*/, successToastMessage/*string*/) {
 			if( typeof (callback) !== "function" || typeof (apiObjectName) !== "string" || typeof (apiObjectId) !== "string") {
 				return false;
 			}
 
 			$.ajax({
 				type : "GET",
-				url : _private.baseUrl + apiObjectName + "/" + apiObjectId,
+				url : _private.options.baseUrl + apiObjectName + "/" + apiObjectId,
 				dataType : "json",
 				success : function(data) {
 					_private.successToast(successToastMessage);
@@ -90,14 +90,14 @@ namespace("GameCraft.REST", function() {
 			});
 			return true;
 		},
-		update : function(apiObjectName, apiObjectId, dataObject, successToastMessage) {
+		update : function(apiObjectName /*string*/, apiObjectId /*string|integer*/, dataObject/*object*/, successToastMessage/*string*/) {
 			if( typeof (dataObject) !== "object" || typeof (apiObjectId) !== "string" || typeof (apiObjectId) !== "string") {
 				return false;
 			}
 			dataObject = JSON.stringify(dataObject);
 			$.ajax({
 				type : "PUT",
-				url : _private.baseUrl + apiObjectName + "/" + apiObjectId,
+				url : _private.options.baseUrl + apiObjectName + "/" + apiObjectId,
 				dataType : "json",
 				contentType : "application/json; charset=utf-8",
 				data : dataObject,
