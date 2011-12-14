@@ -1,12 +1,10 @@
 (function(window) {
-	function namespace(str, func /*function*/)/*Rado.Vitq.Initlab*/
+	function namespace(str, func /*function*/)
 	{
-		var arr = str.split(".");
-		var parent = window;
-		var n = arr.length;
+		var arr = str.split("."), parent = window, n = arr.length, i = 0, nextName = "";
 
-		for(var i = 0; i < n; i++) {
-			var nextName = arr[i];
+		for(i; i < n; i++) {
+			nextName = arr[i];
 			if( typeof (parent[nextName]) === "undefined") {
 				parent[nextName] = {};
 			}

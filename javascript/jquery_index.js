@@ -8,13 +8,15 @@ $(document).ready(function() {
 		});
 	});
 	var init = function(data, checkinObject) {
-		var idmap = {};
-		var parsed = [];
-		for(var i = 0, len = data.length; i < len; ++i) {
-			var name = data[i].firstName + " " + data[i].secondName;
-			parsed[i] = name;
-			idmap[name] = data[i].id;
-		}
+		
+		data = data.map(function(item, index) {
+			item.name = item.firstName + " " + item.secondName;
+			return item;
+		});
+		
+		var localDataSouce = new kendo.data.DataSource({
+			data : data
+		});
 
 		var ui = new EJS({
 			url : "javascript/templates/ui.ejs"
@@ -25,8 +27,12 @@ $(document).ready(function() {
 
 		$("#container").append(ui);
 		$("#checkinEvent").val(checkinObject.id);
-		$("#memberName").autocomplete({
-			source : parsed
+		
+		$("#memberName").kendoComboBox({
+			index : 0,
+			dataTextField : "name",
+			dataValueField : "id",
+			dataSource : localDataSouce
 		});
 
 		$("#checkinButton").bind("click", {
