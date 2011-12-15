@@ -24,6 +24,7 @@ $(document).ready(function() {
 			dataValueField : "id",
 			dataSource : localDataSouce
 		});
+		
 		var membersCombo = $("#memberName").data("kendoComboBox");
 
 		$("#checkinButton").bind("click", {

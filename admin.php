@@ -14,20 +14,19 @@ header("Content-Type: text/html; charset=utf-8");
 		<script src="javascript/json2.js"></script>
 		<script src="javascript/jquery.toastmessage.js"></script>
 		<link href="javascript/jquery.toastmessage.css" rel="stylesheet" />
-		<script src="javascript/jquery_index.js"></script>
+		<script src="javascript/jquery_admin.js"></script>
 	</head>
 	<body>
 		<div id="container">
-			<div id="checkinContainer">
-				<h1 id="titlePlaceholder"></h1>
-				<label for="memberName">Как се казваш ?</label>
-				<br />
-				<input type="text" id="memberName" />
-				<input type="button" value="Дойдох!" id="checkinButton" />
-				<input type="hidden" value="-1" id="checkinEvent" />
-				<h2>Кой е дошъл до сега ?</h2>
-				<div id="checkedInContainer"></div>
-			</div>
+			<h1>Създай събитие</h1>
+			<p>Всяко създадено събитие ще измести предходното като най-ново</p>
+			<label for="eventName">Име на събитието</label>
+			<br />
+			<input type="text" id="eventName" />
+			<br />
+			<input id="datepicker" />
+			<br />
+			<input type="button" id="addEvent" value="Добави събитие" />
 		</div>
 	</body>
 </html>
