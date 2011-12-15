@@ -8,45 +8,35 @@ $(document).ready(function() {
 		});
 	});
 	var init = function(data, checkinObject) {
-		
 		data = data.map(function(item, index) {
 			item.name = item.firstName + " " + item.secondName;
 			return item;
 		});
-		
 		var localDataSouce = new kendo.data.DataSource({
 			data : data
 		});
-
-		var ui = new EJS({
-			url : "javascript/templates/ui.ejs"
-		}).render({
-			title : checkinObject.name,
-			date : checkinObject.date
-		});
-
-		$("#container").append(ui);
+		$("#titlePlaceholder").html(checkinObject.name + " / " + checkinObject.date);
 		$("#checkinEvent").val(checkinObject.id);
-		
+
 		$("#memberName").kendoComboBox({
 			index : 0,
 			dataTextField : "name",
 			dataValueField : "id",
 			dataSource : localDataSouce
 		});
+		var membersCombo = $("#memberName").data("kendoComboBox");
 
 		$("#checkinButton").bind("click", {
 			context : {
-				idmap : idmap
 			}
 		}, function(event) {
-			var memberId = event.data.context.idmap[$("#memberName").val()], eventId = $("#checkinEvent").val();
+			var memberId = membersCombo.value(), eventId = $("#checkinEvent").val();
 			console.log(memberId, eventId);
-
 			if( typeof (memberId) === "undefined") {
 				alert("Pick a member");
 				return false;
 			}
+
 			rest.create("api/checkin/" + eventId + "/member/" + memberId + "/", {}, function(data) {
 				console.log(data);
 			});
